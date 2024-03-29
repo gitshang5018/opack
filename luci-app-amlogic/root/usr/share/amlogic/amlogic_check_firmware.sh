@@ -52,7 +52,10 @@ fi
 # Find the partition where root is located
 ROOT_PTNAME="$(df / | tail -n1 | awk '{print $1}' | awk -F '/' '{print $3}')"
 if [[ -z "${ROOT_PTNAME}" ]]; then
-    tolog "Cannot find the partition corresponding to the root file system!" "1"
+    ROOT_PTNAME="$(df /overlay | tail -n1 | awk '{print $1}' | awk -F '/' '{print $3}')"
+    if [[ -z "${ROOT_PTNAME}" ]]; then
+        tolog "Cannot find the partition corresponding to the root file system!" "1"
+    fi
 fi
 
 # Find the disk where the partition is located, only supports mmcblk?p? sd?? hd?? vd?? and other formats
@@ -142,7 +145,7 @@ check_updated() {
                 firmware_tags_array+=("${firmware_tags_name}")
             fi
         done < <(
-            curl -fsSL \
+            curl -fsSL -m 10 \
                 https://github.com/${server_firmware_url}/releases?page=${i} |
                 grep -oE 'releases/tag/([^" ]+)'
         )
@@ -173,7 +176,7 @@ check_updated() {
 
     # Retrieve the HTML code of the tags list page
     html_code="$(
-        curl -fsSL \
+        curl -fsSL -m 10 \
             https://github.com/${server_firmware_url}/releases/expanded_assets/${firmware_releases_tag}
     )"
 
@@ -259,7 +262,7 @@ download_firmware() {
 
     # Download to OpenWrt file
     firmware_download_name="openwrt_${BOARD}_k${main_line_version}_github${firmware_suffix}"
-    wget "${latest_url}" -q -O "${FIRMWARE_DOWNLOAD_PATH}/${firmware_download_name}"
+    curl -fsSL "${latest_url}" -o "${FIRMWARE_DOWNLOAD_PATH}/${firmware_download_name}"
     if [[ "$?" -eq "0" && -s "${FIRMWARE_DOWNLOAD_PATH}/${firmware_download_name}" ]]; then
         tolog "03.01 OpenWrt downloaded successfully."
     else
@@ -267,7 +270,7 @@ download_firmware() {
     fi
 
     # Download sha256sums file
-    if wget "${latest_url}.sha" -q -O "${FIRMWARE_DOWNLOAD_PATH}/sha256sums" 2>/dev/null; then
+    if curl -fsSL "${latest_url}.sha" -o "${FIRMWARE_DOWNLOAD_PATH}/sha256sums" 2>/dev/null; then
         tolog "03.03 sha file downloaded successfully."
 
         # If there is a sha256sum file, compare it
