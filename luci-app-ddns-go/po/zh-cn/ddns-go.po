@@ -16,6 +16,9 @@ msgstr "运行状态"
 msgid "DDNS-GO Control panel"
 msgstr "DDNS-GO操作台"
 
+msgid "Log"
+msgstr "日志"
+
 msgid "The DDNS-GO service is running."
 msgstr "DDNS-GO服务已启动"
 
@@ -55,3 +58,5 @@ msgstr "指定DNS解析服务器"
 msgid "Do not start web services"
 msgstr "不启动web服务"
 
+msgid "Delayed Start (seconds)"
+msgstr "开机延时启动（秒）"
