@@ -7,13 +7,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=alist
-PKG_VERSION:=3.38.0
-PKG_WEB_VERSION:=3.38.0
+PKG_VERSION:=3.41.0
+PKG_WEB_VERSION:=3.41.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/alist-org/alist/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=bc8983900786afdc2ac3d4a60d5e71a1e5db0c2c63f00190c728974ee266ce12
+PKG_SOURCE_URL:=https://codeload.github.com/AlistGo/alist/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=0336a1c0089d558e7e3efd0337e51e9c45bc80f22ee8a71103e12417a7d647a2
 
 PKG_LICENSE:=GPL-3.0
 PKG_LICENSE_FILE:=LICENSE
@@ -22,8 +22,8 @@ PKG_MAINTAINER:=sbwml <admin@cooluc.com>
 define Download/$(PKG_NAME)-web
   FILE:=$(PKG_NAME)-web-$(PKG_WEB_VERSION).tar.gz
   URL_FILE:=dist.tar.gz
-  URL:=https://github.com/alist-org/alist-web/releases/download/$(PKG_WEB_VERSION)/
-  HASH:=8c76d6863bc77e0b5da1cbae10b6cec2b3332fcb4e41f055747f4cc5ab04c06a
+  URL:=https://github.com/AlistGo/alist-web/releases/download/$(PKG_WEB_VERSION)/
+  HASH:=7fbc3e83874fca15eb6590aad2c09cd6eb4f15aa7febe2b25a961ea56ba5265b
 endef
 
 PKG_BUILD_DEPENDS:=golang/host
@@ -48,7 +48,7 @@ define Package/$(PKG_NAME)
   CATEGORY:=Network
   SUBMENU:=Web Servers/Proxies
   TITLE:=A file list program that supports multiple storage
-  URL:=https://alist.nn.ci/
+  URL:=http://www.alistgo.com
   DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle
 endef
 
